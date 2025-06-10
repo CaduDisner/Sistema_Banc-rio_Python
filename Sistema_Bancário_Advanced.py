@@ -185,6 +185,14 @@ class Deposito(Transacao):
 
         if sucesso_transacao:
             conta.historico.adicionar_transacao(self)
+            
+def log_transacao(func):
+    def envelope(*args, **kwargs):
+        resultado = func(*args, **kwargs)
+        print(f"{datetime.now()}: {func._name.upper()}")
+        return resultado
+        
+    return envelope
 
 def depositar(clients):
     cpf = input("Informe o CPF do cliente: ")
